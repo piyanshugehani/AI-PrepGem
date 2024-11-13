@@ -78,7 +78,7 @@ export default function Page() {
             quibusdam aperiam voluptatum.
           </p>
         </div>
-        <SignIn/>
+        <SignIn forceRedirectUrl="/dashboard/" />
       </div>
     </main>
   </div>
