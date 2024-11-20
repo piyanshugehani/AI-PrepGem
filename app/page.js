@@ -27,7 +27,7 @@ export default function Home() {
   }, []);
 
   const handleStartClick = () => {
-    router.push('/sign-in/');     // Redirect to /signin page
+    window.location.href = "/sign-in/";
   };
 
   return (

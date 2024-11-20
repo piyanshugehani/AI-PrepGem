@@ -1,16 +1,6 @@
 {
   "rewrites": [
-    {
-      "source": "/sign-in",
-      "destination": "/sign-in"
-    },
-    {
-      "source": "/dashboard",
-      "destination": "/dashboard"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/"
-    }
+    { "source": "/sign-in/", "destination": "/sign-in/" },
+    { "source": "/(.*)", "destination": "/" }
   ]
 }
