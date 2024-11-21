@@ -46,16 +46,17 @@ const SortingVisualizer = () => {
   
           setTimeout(() => {
             setStatus(`Swapping indices ${i} and ${j}`);
-  
             // Animate swap
             gsap.to(`#bar-${i}`, { x: 50, duration: 0.5 });
             gsap.to(`#bar-${j}`, { x: -50, duration: 0.5, onComplete: () => {
-              // Update the state after swap
-              const newArray = [...array];
-              const temp = newArray[i];
-              newArray[i] = newArray[j];
-              newArray[j] = temp;
-              setArray(newArray);
+              // Update the array and state after swap
+              setArray(prevArray => {
+                const newArray = [...prevArray];
+                const temp = newArray[i];
+                newArray[i] = newArray[j];
+                newArray[j] = temp;
+                return newArray;
+              });
   
               // Reset bar positions
               gsap.to(`#bar-${i}`, { x: 0, duration: 0 });
@@ -70,9 +71,9 @@ const SortingVisualizer = () => {
     setTimeout(() => {
       setStatus("Sorting Complete!");
       setActiveBars([]);
-      setArray(arrayCopy); // Ensure the final sorted state is displayed
     }, animations.length * 1000);
   };
+  
   
 
   return (
@@ -132,7 +133,7 @@ const Visualizer = () => {
           {!showVisualizer ? (
             <button
               onClick={() => setShowVisualizer(true)}
-              className="bg-purple-500 text-white px-6 py-2 rounded-lg shadow hover:bg-purple-700"
+              className="bg-gradient-to-br from-purple-500 to-indigo-600 text-white px-6 py-2 rounded-lg shadow hover:bg-purple-700"
             >
               Visualize Solution
             </button>
