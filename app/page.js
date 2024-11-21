@@ -50,7 +50,7 @@ export default function Home() {
           className="absolute bottom-1/4 left-1/2 transform -translate-x-1/2"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 2, delay: 2 }}
+          transition={{ duration: 2, delay: 1 }}
         >
           <button
             onClick={handleStartClick}

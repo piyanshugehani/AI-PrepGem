@@ -35,7 +35,7 @@ const SortingVisualizer = () => {
     animations.forEach(({ compare, swap }, idx) => {
       setTimeout(() => {
         setActiveBars(compare); // Highlight bars being compared
-        setStatus(`Comparing indices ${compare[0]} and ${compare[1]}`);
+        setStatus(`Comparing arr[${compare[0]}] and arr[${compare[1]}]`);
   
         // Animate comparison
         gsap.to(`#bar-${compare[0]}`, { y: -20, duration: 0.3, yoyo: true, repeat: 1 });
@@ -45,7 +45,7 @@ const SortingVisualizer = () => {
           const [i, j] = swap;
   
           setTimeout(() => {
-            setStatus(`Swapping indices ${i} and ${j}`);
+            setStatus(`Swapping arr[${i}] and arr[${j}]`);
             // Animate swap
             gsap.to(`#bar-${i}`, { x: 50, duration: 0.5 });
             gsap.to(`#bar-${j}`, { x: -50, duration: 0.5, onComplete: () => {
@@ -101,7 +101,7 @@ const SortingVisualizer = () => {
 
       <button
         onClick={animateSorting}
-        className="bg-purple-500 text-white px-4 py-2 rounded shadow-md hover:bg-purple-700"
+        className="bg-gradient-to-br from-purple-500 to-indigo-600 text-white px-4 py-2 rounded shadow-md hover:bg-purple-700"
       >
         Start Sorting Animation
       </button>
