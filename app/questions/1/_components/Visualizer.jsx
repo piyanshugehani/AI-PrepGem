@@ -12,63 +12,68 @@ const SortingVisualizer = () => {
   const [status, setStatus] = useState("");
 
   const animateSorting = () => {
-  const animations = [];
-  const arrayCopy = [...initialArray];
-
-  // Bubble Sort Logic with Animation Steps
-  for (let i = 0; i < arrayCopy.length; i++) {
-    for (let j = 0; j < arrayCopy.length - i - 1; j++) {
-      animations.push({
-        compare: [j, j + 1],
-        swap: arrayCopy[j] > arrayCopy[j + 1] ? [j, j + 1] : null,
-      });
-      if (arrayCopy[j] > arrayCopy[j + 1]) {
-        const temp = arrayCopy[j];
-        arrayCopy[j] = arrayCopy[j + 1];
-        arrayCopy[j + 1] = temp;
+    const animations = [];
+    const arrayCopy = [...array];
+  
+    // Bubble Sort Logic with Animation Steps
+    for (let i = 0; i < arrayCopy.length; i++) {
+      for (let j = 0; j < arrayCopy.length - i - 1; j++) {
+        animations.push({
+          compare: [j, j + 1],
+          swap: arrayCopy[j] > arrayCopy[j + 1] ? [j, j + 1] : null,
+        });
+  
+        if (arrayCopy[j] > arrayCopy[j + 1]) {
+          const temp = arrayCopy[j];
+          arrayCopy[j] = arrayCopy[j + 1];
+          arrayCopy[j + 1] = temp;
+        }
       }
     }
-  }
-
-  // Animate the sorting process
-  animations.forEach(({ compare, swap }, idx) => {
-    setTimeout(() => {
-      setActiveBars(compare); // Highlight the bars being compared
-      setStatus(`Comparing indices ${compare[0]} and ${compare[1]}`);
-
-      // Animate comparison with GSAP
-      gsap.to(`#bar-${compare[0]}`, { y: -20, duration: 0.3, yoyo: true, repeat: 1 });
-      gsap.to(`#bar-${compare[1]}`, { y: -20, duration: 0.3, yoyo: true, repeat: 1 });
-
-      if (swap) {
-        setTimeout(() => {
-          setStatus(`Swapping indices ${swap[0]} and ${swap[1]}`);
+  
+    // Animate the sorting process
+    animations.forEach(({ compare, swap }, idx) => {
+      setTimeout(() => {
+        setActiveBars(compare); // Highlight bars being compared
+        setStatus(`Comparing indices ${compare[0]} and ${compare[1]}`);
+  
+        // Animate comparison
+        gsap.to(`#bar-${compare[0]}`, { y: -20, duration: 0.3, yoyo: true, repeat: 1 });
+        gsap.to(`#bar-${compare[1]}`, { y: -20, duration: 0.3, yoyo: true, repeat: 1 });
+  
+        if (swap) {
           const [i, j] = swap;
-
-          // Animate swapping with GSAP
-          gsap.to(`#bar-${i}`, { x: 50, duration: 0.5 });
-          gsap.to(`#bar-${j}`, { x: -50, duration: 0.5, onComplete: () => {
+  
+          setTimeout(() => {
+            setStatus(`Swapping indices ${i} and ${j}`);
+  
+            // Animate swap
+            gsap.to(`#bar-${i}`, { x: 50, duration: 0.5 });
+            gsap.to(`#bar-${j}`, { x: -50, duration: 0.5, onComplete: () => {
+              // Update the state after swap
               const newArray = [...array];
               const temp = newArray[i];
               newArray[i] = newArray[j];
               newArray[j] = temp;
               setArray(newArray);
-
+  
               // Reset bar positions
               gsap.to(`#bar-${i}`, { x: 0, duration: 0 });
               gsap.to(`#bar-${j}`, { x: 0, duration: 0 });
-          }});
-        }, 500);
-      }
-    }, idx * 1000);
-  });
-
-  setTimeout(() => {
-    setStatus("Sorting Complete!");
-    setActiveBars([]);
-  }, animations.length * 1000);
-};
-
+            }});
+          }, 500);
+        }
+      }, idx * 1000);
+    });
+  
+    // Final update after all animations
+    setTimeout(() => {
+      setStatus("Sorting Complete!");
+      setActiveBars([]);
+      setArray(arrayCopy); // Ensure the final sorted state is displayed
+    }, animations.length * 1000);
+  };
+  
 
   return (
     <div className="space-y-12 text-center">
