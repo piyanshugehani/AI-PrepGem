@@ -159,24 +159,22 @@ const Canvas = () => {
     reset();
 
     const vis = Array(points.length).fill(false);
-    const stack = [s];
     const animations = [];
-    vis[s] = true;
+    const dfsUtil = (v) => {
+      animations.push({ x: v, y: -1, color: color1 });
+      vis[v] = true;
 
-    while (stack.length > 0) {
-      const x = stack.pop();
-      animations.push({ x, y: -1, color: color1 });
-
-      adj[x].forEach(({ vertex, edgeNo }) => {
+      adj[v].forEach(({ vertex, edgeNo }) => {
         if (!vis[vertex]) {
-          vis[vertex] = true;
-          stack.push(vertex);
           animations.push({ x: edgeNo, y: -1, color: "edge" });
           animations.push({ x: edgeNo, y: -1, color: "shrinkEdge" });
           animations.push({ x: vertex, y: -1, color: "blue" });
+          dfsUtil(vertex);
         }
       });
-    }
+    };
+
+    dfsUtil(s);
 
     animations.forEach((anim, i) => {
       setTimeout(() => {
